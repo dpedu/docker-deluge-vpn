@@ -30,6 +30,9 @@ RUN chmod +x /start ; \
     sed -i -e"s/^UnitMode\s0/UnitMode 1/" /etc/vnstat.conf ; \
     sed -i -e"s/^RateUnit\s1/RateUnit 0/" /etc/vnstat.conf
 
+# Install openvpn
+RUN apt-get install -y openvpn
+COPY openvpn.conf /etc/supervisor/conf.d/openvpn.conf
 
 # Expose deluge-web, deluge
 EXPOSE 8112
