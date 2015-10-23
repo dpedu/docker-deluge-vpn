@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:trusty
 MAINTAINER Dave P
 
 # Create user (user/password is deluge)
@@ -13,6 +13,9 @@ COPY web_plugin.conf /home/deluge/.config/deluge/
 COPY web.conf /home/deluge/.config/
 COPY run_deluge.sh /
 RUN apt-get update ; \
+    apt-get install -y software-properties-common ; \
+    add-apt-repository -y ppa:deluge-team/ppa ; \
+    apt-get update ; \
     apt-get -y install deluged deluge-web deluge-console ; \ 
     chown -R deluge /home/deluge/.config ; \
     chgrp -R deluge /home/deluge/.config ; \
@@ -31,7 +34,7 @@ RUN chmod +x /start ; \
     sed -i -e"s/^RateUnit\s1/RateUnit 0/" /etc/vnstat.conf
 
 # Install openvpn
-RUN apt-get install -y openvpn
+RUN apt-get install -y openvpn ; dpkg -l
 COPY openvpn.conf /etc/supervisor/conf.d/openvpn.conf
 
 # Expose deluge-web, deluge
